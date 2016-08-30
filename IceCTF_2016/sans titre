@@ -1,0 +1,31 @@
+import socket<br />
+import base64<br />
+<br />
+def netcat(hostname, port, content):<br />
+&nbsp; &nbsp; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br />
+&nbsp; &nbsp; s.connect((hostname, port))<br />
+&nbsp; &nbsp; s.sendall(content)<br />
+&nbsp; &nbsp; s.shutdown(socket.SHUT_WR)<br />
+&nbsp; &nbsp; for i in range(2):<br />
+&nbsp; &nbsp; &nbsp; &nbsp; data = s.recv(2084)<br />
+&nbsp; &nbsp; s.close()<br />
+&nbsp; &nbsp; return data<br />
+&nbsp; &nbsp;<br />
+sd="l33tserver pleaseAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"<br />
+#flag="IceCTF{unleash_th3_Blocks_aNd_find_what"<br />
+flag =""<br />
+for j in range(64):<br />
+<span class="Apple-tab-span" style="white-space: pre;">	</span>sd=sd[:len(sd)-1]<br />
+<span class="Apple-tab-span" style="white-space: pre;">	</span>dt = base64.b64encode(sd)<br />
+<span class="Apple-tab-span" style="white-space: pre;">	</span>f1 = netcat("l33tcrypt.vuln.icec.tf",6001,dt+"\n")<br />
+<span class="Apple-tab-span" style="white-space: pre;">	</span>f1 =f1[53:len(f1)-1]<br />
+<span class="Apple-tab-span" style="white-space: pre;">	</span>f1 = base64.b64decode(f1).encode('hex')[:160]<br />
+<span class="Apple-tab-span" style="white-space: pre;">	</span>for k in range(39,127):<br />
+<span class="Apple-tab-span" style="white-space: pre;">		</span>dt = base64.b64encode(sd+flag+str(chr(k)))<br />
+<span class="Apple-tab-span" style="white-space: pre;">		</span>f2 = netcat("l33tcrypt.vuln.icec.tf",6001,dt+"\n")<br />
+<span class="Apple-tab-span" style="white-space: pre;">		</span>f2 = f2[53:len(f2)-1]<br />
+<span class="Apple-tab-span" style="white-space: pre;">		</span>f2 = base64.b64decode(f2).encode('hex')[:160]<br />
+<span class="Apple-tab-span" style="white-space: pre;">		</span>if f2 == f1 :<br />
+<span class="Apple-tab-span" style="white-space: pre;">			</span>flag += str(chr(k))<br />
+<span class="Apple-tab-span" style="white-space: pre;">			</span>break<br />
+<span class="Apple-tab-span" style="white-space: pre;">	</span>print "flag : "+flag+"\n"<br />
