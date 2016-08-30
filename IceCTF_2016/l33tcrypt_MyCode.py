@@ -12,7 +12,7 @@ def netcat(hostname, port, content):
     return data
     
 sd="l33tserver pleaseAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-#flag="IceCTF{unleash_th3_Blocks_aNd_find_what"
+#flag="IceCTF{unleash_th3_Blocks_aNd_find_what_you_seek}"
 flag =""
 for j in range(64):
 	sd=sd[:len(sd)-1]
